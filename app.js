@@ -23,4 +23,6 @@ app.listen(PORT, function(){
 })
 
 //Test for OES database
-
+app.get('/', function(req,res){
+  res.render('/index')
+})
