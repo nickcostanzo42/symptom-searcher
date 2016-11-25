@@ -19,5 +19,5 @@ var db = pgp(process.env.DATABASE_URL || 'postgres://nicholascostanzo@localhost:
 
 //Port test
 app.listen(PORT, function(){
-  console.log('App listening on: ' + port);
+  console.log('App listening on: ' + PORT);
 })
