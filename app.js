@@ -13,6 +13,15 @@ app.set('view engine','html');
 app.set('views',__dirname+'/public/views');
 app.use(express.static(__dirname+"/public"));
 
+//bodyparser
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+//Fetch
+var fetch = require("node-fetch");
+
+
 //require pg-promise and set up database
 const pgp = require("pg-promise")();
 var db = pgp(process.env.DATABASE_URL || 'postgres://nicholascostanzo@localhost:5432/p2db');
