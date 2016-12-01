@@ -1,0 +1,64 @@
+body {
+  background-color: #c9cfd6;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+#title {
+  text-align: center;
+  background-image: url('../images/banner.jpg');
+  background-size: cover;
+  width: 100%;
+  height: 200px;
+  margin-bottom: 30px;
+}
+
+#titleText {
+  /* background-color: white; */
+  font-size: 55px;
+  font-weight: bold;
+  opacity: 0.9;
+  padding: 0px 5px 0px 5px;
+}
+
+
+.navitem {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  padding: 20px 20px 20px 20px;
+  background: white;
+}
+
+#submit1 {
+  width: 300px;
+  background-color: white;
+}
+
+#submit2 {
+  width: 300px;
+  background-color: white;
+}
+
+input[type=radio],
+input.radio {
+  display: inline;
+  vertical-align: middle;
+}
+
+#form2 {
+  display: inline;
+}
+
+.doctorInfo {
+  background-color: #80ABD8;
+  margin: 0 auto;
+  border-radius: 5%;
+  text-align: left;
+  width: 80%;
+  padding: 40px;
+  margin-bottom: 20px;
+}
+
+

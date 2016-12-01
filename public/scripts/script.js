@@ -1,23 +1,8 @@
-console.log("Javascript loaded");
-
-//References for calls
-//Geolocation
-// var do_something = function(lat, long){
-//   console.log(lat + ', ' + long);
-// };
-
-// navigator.geolocation.getCurrentPosition(function(position) {
-//   do_something(position.coords.latitude, position.coords.longitude);
-// });
-
-// Informedica API call
+// Informedica API call example
 // $.ajax({
 //   method: "GET",
 //   url: "https://api.infermedica.com/v2/search?phrase=",
-//   headers: {
-//     'app_id': '9bdcf6ee',
-//     'app_key': 'f82069ef0330332b15fe9a53b25d6495'
-//   },
+
 //   success: function (data){
 //     console.log(data)
 //   },
@@ -30,7 +15,7 @@ console.log("Javascript loaded");
 //Better Doctor
 // $.ajax({
 //   method: "GET",
-//   url: "https://api.betterdoctor.com/2016-03-01/doctors?query='Toothache'&user_location=40.740058999999995%2C-73.9897579&skip=0&limit=10&user_key=1f7e5b226abd0298768a2026784a0ffb",
+//   url: "https://api.betterdoctor.com/2016-03-01/doctors?query='Toothache'&user_location=40.740058999999995%2C-73.9897579&skip=0&limit=10&user_key=",
 //   success: function(data){
 //     console.log(data);
 //   },
@@ -39,36 +24,152 @@ console.log("Javascript loaded");
 //   }
 // })
 
+console.log("Javascript loaded");
 
-//add event listeners
+// References for calls
+// Geolocation
+var do_something = function(lat, long){
+  userLat = lat;
+  userLong = long;
+};
+
+navigator.geolocation.getCurrentPosition(function(position) {
+  do_something(position.coords.latitude, position.coords.longitude);
+});
+
+
+
+//add first event listeners
 var addEventListeners = function(){
+
     $('#form1').submit(function(){
-      console.log('clicked');
       event.preventDefault();
-      var $firstSearch = $('#search1').val();
-      firstCall($firstSearch);
-  })
+      $firstSearch = $('#search1').val();
+      infermedicaCall($firstSearch);
+    })
+
+    $('#form2').submit(function(){
+      event.preventDefault();
+      $secondSearch = $("input[name=symptom2]:checked").val();
+      //call next function
+      betterDoctorCall($firstSearch,$secondSearch,userLong,userLat);
+    })
+
+    $("#div0,#div1,#div2,#div3,#div4,#div5,#div6,#div7,#div8,#div9")
+    .click(function(){
+      console.log('clicked');
+      console.log($('.drName').text());
+    })
+
 }
 
 addEventListeners();
 
+
 //function for first call
-var firstCall = function(thing){
+var infermedicaCall = function(thing){
     return $.ajax({
       method: "GET",
-      url: "https://api.infermedica.com/v2/search?phrase=" + thing,
-      headers: {
-        'app_id': '9bdcf6ee',
-        'app_key': 'f82069ef0330332b15fe9a53b25d6495'
-      },
+      //creates a local search route
+      url: "/search/" + thing,
+
       success: function (data){
         console.log(data);
+        radioButtons(data);
+
+        $('#form1').submit(function(event){
+          event.preventDefault();
+          //remove the function of the button
+        });
+
       },
       error: function (data) {
         console.log('Not a valid connection')
       }
     })
 }
+
+//second search
+var betterDoctorCall = function(symptom1, symptom2, long, lat){
+   $.ajax({
+    method: "GET",
+
+    url: "/search/" + symptom1 + "/" + symptom2 + "/" + long + "/" + lat + "/",
+
+    datatype: 'json',
+
+    success: function (data){
+
+    console.log(data);
+    populateDoctorData(data);
+    $('#incorrect').hide();
+    },
+
+    error: function (data){
+      console.log('Try again')
+    }
+  })
+}
+
+
+//function for populating page with stuff from first query
+var radioButtons = function(data){
+  if (data.length <= 0) {
+    $('#incorrect').html('<p>Please type a more recognizable term, I\'m only a robot :)</p>');
+  } else {
+    $('#incorrect').html('<h6>A little more specific please: </h6>');
+  data.forEach(function(i){
+    // console.log(i);
+    if (i.label !== $('#search1').val()){
+      $('#form2').append('<input type="radio" name="symptom2" value="' +
+        i.label + '"><label for="' + i.label + '">' + i.label + '</label><br>');
+    }
+  });
+
+    $('#form2').append('<button type="submit" id="submit2">Submit</button>');
+    $('#form1').submit(function(event){
+      event.preventDefault();
+      //remove the function of the button
+    });
+  }
+}
+
+
+var populateDoctorData = function(info){
+  $('#form1').hide();
+  $('#form2').hide();
+  var arr = info.data
+  console.log(arr)
+  arr.forEach(function(doctor, i){
+    $('body').append('<div class="doctorInfo" id="div' + i + '">');
+
+      //doctors name
+      $('#div'+i).append('<h2>Dr. ' + doctor.profile.last_name + '</h2>')
+
+      //doctors location
+      doctor.practices.forEach(function(practices, i3){
+        $('#div'+i).append('<h3 class="drName">' + (i3 + 1) + '. ' + practices.name + '</h3>')
+        $('#div'+i).append('<h4>Address:</h4>')
+        $('#div'+i).append('<p>' + practices.visit_address.street + '</p>')
+        if (practices.visit_address.street2){
+          $('#div'+i).append('<p>' + practices.visit_address.street2 + '</p>')
+        }
+        $('#div'+i).append('<p>' + practices.visit_address.city + ', ' +  practices.visit_address.state + ' '+ practices.visit_address.zip + '</p>')
+
+        //phone numbers
+        $('#div'+i).append('<h4>Contact:</h4>')
+          practices.phones.forEach(function(phone, i4){
+          if (phone.type = 'landline')
+            $('#div' + i).append('<p class="phone">Phone ' + (i4 + 1) + ': ' + phone.number + '</p>')
+        })
+      })
+
+    $('#div' + i).append('<br>')
+
+    })
+}
+
+
 
 
 

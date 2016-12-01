@@ -1,54 +1,54 @@
 DROP TABLE IF EXISTS symptoms;
-DROP TABLE IF EXSITS specialties;
+DROP TABLE IF EXISTS specialties;
 
-CREATE TABLE specialties {
-id    SERIAL        PRIMARY KEY,
-name  VARCHAR(100)  NOT NULL
-};
+CREATE TABLE specialties (
+id SERIAL PRIMARY KEY,
+name VARCHAR(100) NOT NULL
+);
 
-CREATE TABLE symptoms {
+CREATE TABLE symptoms (
 id                  SERIAL        PRIMARY KEY,
 symptom             VARCHAR(100)  NOT NULL,
 related_specialty   INTEGER       REFERENCES specialties
-};
+);
 
 --1
-INSERT INTO specialties (name) VALUES ('Allergy and Immunology');
+INSERT INTO specialties (name) VALUES ('Allergist');
 --2
-INSERT INTO specialties (name) VALUES ('Cardiology');
+INSERT INTO specialties (name) VALUES ('Cardiologist');
 --3
 --4 will add as another query value based on if the age is younger than
 --20 or not
-INSERT INTO specialties (name) VALUES ('Pediatrics');
+INSERT INTO specialties (name) VALUES ('Pediatrician');
 --4
-INSERT INTO specialties (name) VALUES ('Psychiatry');
+INSERT INTO specialties (name) VALUES ('Psychiatrist');
 --5
-INSERT INTO specialties (name) VALUES ('Neurology');
+INSERT INTO specialties (name) VALUES ('Neurologist');
 --6
-INSERT INTO specialties (name) VALUES ('Endocrinology');
+INSERT INTO specialties (name) VALUES ('Endocrinologist');
 --7
-INSERT INTO specialties (name) VALUES ('Gastroenterology');
+INSERT INTO specialties (name) VALUES ('Gastroenterologist');
 --8
 --Sitting on this one
-INSERT INTO specialties (name) VALUES ('General practice');
+INSERT INTO specialties (name) VALUES ('General practicioner');
 --9
 INSERT INTO specialties (name) VALUES ('Infectious disease');
 --10
-INSERT INTO specialties (name) VALUES ('Radiology');
+INSERT INTO specialties (name) VALUES ('Radiologist');
 --11
-INSERT INTO specialties (name) VALUES ('Nephrology');
+INSERT INTO specialties (name) VALUES ('Nephrologist');
 --12
-INSERT INTO specialties (name) VALUES ('Neurology');
+INSERT INTO specialties (name) VALUES ('Neurologist');
 --13
-INSERT INTO specialties (name) VALUES ('Ophthalmology');
+INSERT INTO specialties (name) VALUES ('Ophthalmologist');
 --14
-INSERT INTO specialties (name) VALUES ('Dentistry');
+INSERT INTO specialties (name) VALUES ('Dentist');
 --15
-INSERT INTO specialties (name) VALUES ('Pulmonology');
+INSERT INTO specialties (name) VALUES ('Pulmonologist');
 --16
-INSERT INTO specialties (name) VALUES ('Obstetrics and Gynaecology');
+INSERT INTO specialties (name) VALUES ('Gynaecologist');
 --17
-INSERT INTO specialties (name) VALUES ('Dermatology');
+INSERT INTO specialties (name) VALUES ('Dermatologist');
 
 
 --Allergy and Immunology
