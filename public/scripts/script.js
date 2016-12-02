@@ -206,7 +206,7 @@ var removeButton = function(){
       event.preventDefault();
       data = $('#deleteName').text();
       removeItem(data);
-      $('.remove').parent().hide();
+      // $('.remove').parent().hide();
    });
    });
  };
@@ -230,7 +230,9 @@ var updateButton = function(){
   $.each(updateButton, function(index, value){
     $(value).click(function(even){
     event.preventDefault();
-    dataName = $('#deleteName').text();
+    for (var i=0; i < 100; i++){
+      dataName = $('#deleteName' + i).text();
+    }
     data = $('#noteUpdate').val();
     console.log(data);
     updateNote(data, dataName);

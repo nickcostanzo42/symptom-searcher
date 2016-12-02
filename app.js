@@ -42,6 +42,11 @@ const request = require('request-promise');
 const pgp = require("pg-promise")();
 var db = pgp(process.env.DATABASE_URL || 'postgres://nicholascostanzo@localhost:5432/p2db');
 
+//keys n shit
+const INFER_KEY = process.env.infermedicaKey;
+const INFER_USER = process.env.infermedicaUser;
+const BDR_KEY = process.env.betterDoctor;
+
 //Port test
 app.listen(PORT, function(){
   console.log('App listening on: ' + PORT);
@@ -152,8 +157,8 @@ app.get('/search/:symptom', function(req, res){
   var options = {
     url: 'https://api.infermedica.com/v2/search?phrase=' + symptoms,
     headers: {
-      'app_id': 'id',
-      'app_key': 'key from notes'
+      'app_id': INFER_USER,
+      'app_key': INFER_KEY
     }
   }
 
@@ -193,7 +198,6 @@ app.get('/search/:symptom/:symptom2/:long/:lat', function(req, res){
 
   //request
   var options = {
-    uri: "https://api.betterdoctor.com/2016-03-01/doctors?query=" + symptom + "&specialty_uid=" + specialties + "&user_location=" + parseInt(lat) + "%2C" + parseInt(long) + "&skip=0&limit=10&user_key=insert from notes",
 
     method: "GET"
     }
@@ -212,7 +216,7 @@ app.get('/userProfile', function(req, res){
 
   var user_id = req.session.user.id;
 
-  db.many('SELECT * FROM savedDoctors where userID = $1',[user_id])
+  db.any('SELECT * FROM savedDoctors where userID = $1',[user_id])
   .then(function(data){
     console.log(data);
     res.render('profile',{app:data});

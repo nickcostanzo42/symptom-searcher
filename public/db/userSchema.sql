@@ -7,9 +7,9 @@ CREATE TABLE users (
 );
 
 CREATE TABLE savedDoctors (
-  id      SERIAL        PRIMARY KEY,
-  name    VARCHAR(100)  NOT NULL,
-  phone   VARCHAR(20)   NOT NULL,
-  note     VARCHAR(255)  NOT NULL,
-  userId  INTEGER       REFERENCES users
+  id      SERIAL          PRIMARY KEY,
+  name    VARCHAR(100)    NOT NULL,
+  phone   VARCHAR(20)     NOT NULL,
+  note    VARCHAR(255)    NOT NULL,
+  userId  INTEGER         REFERENCES users
 );
