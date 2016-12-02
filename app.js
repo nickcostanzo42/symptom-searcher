@@ -152,8 +152,8 @@ app.get('/search/:symptom', function(req, res){
   var options = {
     url: 'https://api.infermedica.com/v2/search?phrase=' + symptoms,
     headers: {
-      'app_id': '9bdcf6ee',
-      'app_key': 'f82069ef0330332b15fe9a53b25d6495'
+      'app_id': 'id',
+      'app_key': 'key from notes'
     }
   }
 
