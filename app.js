@@ -193,7 +193,7 @@ app.get('/search/:symptom/:symptom2/:long/:lat', function(req, res){
 
   //request
   var options = {
-    uri: "https://api.betterdoctor.com/2016-03-01/doctors?query=" + symptom + "&specialty_uid=" + specialties + "&user_location=" + parseInt(lat) + "%2C" + parseInt(long) + "&skip=0&limit=10&user_key=1f7e5b226abd0298768a2026784a0ffb",
+    uri: "https://api.betterdoctor.com/2016-03-01/doctors?query=" + symptom + "&specialty_uid=" + specialties + "&user_location=" + parseInt(lat) + "%2C" + parseInt(long) + "&skip=0&limit=10&user_key=insert from notes",
 
     method: "GET"
     }
