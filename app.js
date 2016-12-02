@@ -198,7 +198,7 @@ app.get('/search/:symptom/:symptom2/:long/:lat', function(req, res){
 
   //request
   var options = {
-
+    uri: "https://api.betterdoctor.com/2016-03-01/doctors?query=" + symptom + "&specialty_uid=" + specialties + "&user_location=" + parseInt(lat) + "%2C" + parseInt(long) + "&skip=0&limit=10&user_key=" + BDR_KEY,
     method: "GET"
     }
 
