@@ -1,6 +1,11 @@
 //Opening port 4269
 const PORT = process.env.PORT || 4269;
 
+var cl = function(label, value){
+  console.log(label + ":");
+  console.log(value);
+};
+
 //require express
 const express = require('express');
 const app = express();
@@ -216,11 +221,13 @@ app.get('/userProfile', function(req, res){
 
   var user_id = req.session.user.id;
 
-  db.any('SELECT * FROM savedDoctors where userID = $1',[user_id])
+  db.any('SELECT * FROM savedDoctors WHERE userID = $1 ORDER BY name',[user_id])
   .then(function(data){
+
+
     console.log(data);
     res.render('profile',{app:data});
-  })
+  });
 })
 
 
@@ -229,9 +236,16 @@ app.put('/updateNote', function(req,res){
   var user_id = req.session.user.id;
   var note = req.body.note;
   var name = req.body.name;
-  console.log(user_id);
-  console.log(name);
-  console.log(note);
+  console.log('--------------------------------');
+  console.log('in put /updateNote');
+  cl('user_id', user_id);
+  cl('name', name);
+  cl('note',note);
+  // console.log(user_id);
+  // console.log(name);
+  // console.log(note);
+  var maybeQuery = pgp.as.format('UPDATE savedDoctors SET note = $1 WHERE userId = $2 AND name = $3',[note,user_id,name]);
+  cl('maybeQuery', maybeQuery);
   db.none('UPDATE savedDoctors SET note = $1 WHERE userId = $2 AND name = $3',[note,user_id,name])
   .then(function(data){
     console.log(data)

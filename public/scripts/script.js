@@ -149,7 +149,7 @@ var populateDoctorData = function(info){
 
       //doctors location
       doctor.practices.forEach(function(practices, i3){
-        $('#div'+i).append('<h3 class="userData">' + (i3 + 1) + '. ' + practices.name + '</h3>')
+        $('#div'+i).append('<h3 class="userData">' + practices.name + '</h3>')
         $('#div'+i).append('<h4>Address:</h4>')
         $('#div'+i).append('<p>' + practices.visit_address.street + '</p>')
         if (practices.visit_address.street2){
@@ -161,7 +161,7 @@ var populateDoctorData = function(info){
         $('#div'+i).append('<h4>Contact:</h4>')
           practices.phones.forEach(function(phone, i4){
           if (phone.type = 'landline')
-            $('#div' + i).append('<p class="phone">Phone ' + (i4 + 1) + ': ' + phone.number + '</p>')
+            $('#div' + i).append('<p class="phone">' + phone.number + '</p>')
         })
       })
     $('#div' + i).append($saveButton)
@@ -228,12 +228,13 @@ var removeItem = function(data) {
 var updateButton = function(){
   var updateButton = $('.updateNote')
   $.each(updateButton, function(index, value){
-    $(value).click(function(even){
+    $(value).click(function(event){
     event.preventDefault();
-    for (var i=0; i < 100; i++){
-      dataName = $('#deleteName' + i).text();
-    }
+
+    dataName = $('#deleteName').text();
+
     data = $('#noteUpdate').val();
+
     console.log(data);
     updateNote(data, dataName);
   });
