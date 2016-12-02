@@ -55,11 +55,7 @@ var addEventListeners = function(){
       betterDoctorCall($firstSearch,$secondSearch,userLong,userLat);
     })
 
-    $("#div0,#div1,#div2,#div3,#div4,#div5,#div6,#div7,#div8,#div9")
-    .click(function(){
-      console.log('clicked');
-      console.log($('.drName').text());
-    })
+
 
 }
 
@@ -140,7 +136,12 @@ var populateDoctorData = function(info){
   $('#form2').hide();
   var arr = info.data
   console.log(arr)
+
+
   arr.forEach(function(doctor, i){
+     var $saveButton = $("<button>Save</button>");
+    $saveButton = $saveButton.addClass("saveButton")
+
     $('body').append('<div class="doctorInfo" id="div' + i + '">');
 
       //doctors name
@@ -148,7 +149,7 @@ var populateDoctorData = function(info){
 
       //doctors location
       doctor.practices.forEach(function(practices, i3){
-        $('#div'+i).append('<h3 class="drName">' + (i3 + 1) + '. ' + practices.name + '</h3>')
+        $('#div'+i).append('<h3 class="userData">' + (i3 + 1) + '. ' + practices.name + '</h3>')
         $('#div'+i).append('<h4>Address:</h4>')
         $('#div'+i).append('<p>' + practices.visit_address.street + '</p>')
         if (practices.visit_address.street2){
@@ -163,15 +164,90 @@ var populateDoctorData = function(info){
             $('#div' + i).append('<p class="phone">Phone ' + (i4 + 1) + ': ' + phone.number + '</p>')
         })
       })
+    $('#div' + i).append($saveButton)
 
     $('#div' + i).append('<br>')
 
     })
+  saveButton()
 }
 
+//save buttons for results page
+var saveButton = function(){
+   var buttons = $('.saveButton')
+   $.each(buttons, function(index, value){
+     $(value).click(function(event){
+       event.preventDefault();
+     var drData = $('.userData')[index];
+     var phoneData = $('.phone')[index];
+     var text = $(drData).text();
+     var text2 = $(phoneData).text();
+     console.log(text);
+     console.log(text2);
+     saveData(text, text2);
+   });
+   });
+ };
 
 
+var saveData = function(data1, data2){
+   $.ajax({
+     url:"/save",
+     method:"post",
+     data: {name:data1,phone:data2}
+   });
+};
 
+//remove buttons for profile page
+var removeButton = function(){
+   var rmButtons = $('.remove')
+   $.each(rmButtons, function(index, value){
+     $(value).click(function(event){
+      event.preventDefault();
+      data = $('#deleteName').text();
+      removeItem(data);
+      $('.remove').parent().hide();
+   });
+   });
+ };
 
+ removeButton();
 
+var removeItem = function(data) {
+  $.ajax({
+    url:"/remove",
+    method:"DELETE",
+    data: {name:data},
+    success: function(){
+      console.log('deleted')
+    }
+  })
+}
+
+//update the note on the profile page
+var updateButton = function(){
+  var updateButton = $('.updateNote')
+  $.each(updateButton, function(index, value){
+    $(value).click(function(even){
+    event.preventDefault();
+    dataName = $('#deleteName').text();
+    data = $('#noteUpdate').val();
+    console.log(data);
+    updateNote(data, dataName);
+  });
+  });
+};
+
+updateButton();
+
+var updateNote = function(data1, data2) {
+  $.ajax({
+    url:"/updateNote",
+    method:"PUT",
+    data: {note:data1,name:data2},
+    success: function(){
+      console.log('note updated')
+    }
+  })
+}
 

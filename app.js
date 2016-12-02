@@ -75,6 +75,29 @@ app.get('/signup', function(req,res){
   res.render('./signup/index')
 })
 
+//save to user profile
+app.post('/save', function(req, res){
+   var user_id = req.session.user.id;
+   var name = req.body.name;
+   var phone = req.body.phone;
+   var text = 'Insert note here';
+   console.log(req.body.name);
+   db.none("INSERT INTO savedDoctors(name, userId, phone, note) values($1, $2, $3, $4)", [name, user_id,phone,text])
+  .then(function(data){
+    console.log('saved');
+  })
+});
+
+//delete from user profile
+app.delete('/remove', function(req,res){
+  var user_id = req.session.user.id;
+  var name = req.body.name;
+  db.none("DELETE FROM savedDoctors WHERE (name = $1 AND userId = $2)",[name, user_id])
+  .then(function(){
+    console.log('deleted')
+  })
+})
+
 //Signup functionality
 app.post('/signup', function(req, res){
   var data = req.body;
@@ -87,7 +110,7 @@ app.post('/signup', function(req, res){
       res.send('nope')
     })
     .then(function(){
-      res.redirect('/user');
+      res.redirect('/');
     })
   });
 })
@@ -184,6 +207,32 @@ app.get('/search/:symptom/:symptom2/:long/:lat', function(req, res){
 
   });
 });
+
+app.get('/userProfile', function(req, res){
+
+  var user_id = req.session.user.id;
+
+  db.many('SELECT * FROM savedDoctors where userID = $1',[user_id])
+  .then(function(data){
+    console.log(data);
+    res.render('profile',{app:data});
+  })
+})
+
+
+//update note
+app.put('/updateNote', function(req,res){
+  var user_id = req.session.user.id;
+  var note = req.body.note;
+  var name = req.body.name;
+  console.log(user_id);
+  console.log(name);
+  console.log(note);
+  db.none('UPDATE savedDoctors SET note = $1 WHERE userId = $2 AND name = $3',[note,user_id,name])
+  .then(function(data){
+    console.log(data)
+  })
+})
 // app.post('/sendDiag',function(req,res){
 //   // get diag string from req body/params
 //   // look in db for that diag strig's symptoms

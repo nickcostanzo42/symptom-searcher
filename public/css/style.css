@@ -61,4 +61,14 @@ input.radio {
   margin-bottom: 20px;
 }
 
+.doctorInfo2 {
+  background-color: #80ABD8;
+  margin: 0 auto;
+  border-radius: 5%;
+  text-align: left;
+  width: 80%;
+  padding: 40px;
+  margin-top: 30px;
+}
+
 

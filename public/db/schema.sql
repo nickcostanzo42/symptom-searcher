@@ -63,6 +63,7 @@ INSERT INTO symptoms (symptom,related_specialty) VALUES ('allergic',1);
 INSERT INTO symptoms (symptom,related_specialty) VALUES ('anaphalactic',1);
 INSERT INTO symptoms (symptom,related_specialty) VALUES ('swelling',1);
 INSERT INTO symptoms (symptom,related_specialty) VALUES ('congestion',1);
+INSERT INTO symptoms (symptom,related_specialty) VALUES ('throat',1);
 
 --Cardiology
 INSERT INTO symptoms (symptom,related_specialty) VALUES ('chest',2);
